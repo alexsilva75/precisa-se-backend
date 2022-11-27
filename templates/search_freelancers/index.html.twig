@@ -1,25 +1,40 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Precisa-se! Procurar Freelancers{% endblock %}
 
 {% block body %}
 
 
     <div class="row">
         <div class="col-12 pt-4 text-center">
-            <h1>Encontre o profissional certo para a sua necessidade.</h1>
+            <h1 class="h5">Encontre o profissional certo para a sua necessidade.</h1>
         </div>
     </div>
-    <div class="row p-5">
+    <div class="row pt-3 px-4">
         <div class="col-12">
-            <form>
+            <form method="POST" action="{{path('search_freelancers')}}">
                 <div class="input-group">
-                    <input type="text" class="form-control" name="s"/>
+                    <input type="text" class="form-control" name="s" placeholder="Digite um termo. Ex.: Encanador, Marceneiro..."/>
                 </div>
             </form>
         </div>
     </div>   
-
+    {% if freelancers is defined %}
+        {% for freelancer in freelancers %}
+            <div class="row">
+                <div class="card">
+                    <div class="card-header">
+                        Featured
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Special title treatment</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
     
 
 {% endblock %}

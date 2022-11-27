@@ -1,0 +1,100 @@
+<div class="main-sidebar d-flex flex-column flex-shrink-0 p-3 text-white bg-dark position-relative" >
+   <span class="sidebar-collapse-button rounded-circle text-center align-middle position-absolute bg-white ">
+       <a class="sidebar-collapse-action">
+            <i class="fas fa-chevron-left "></i>
+       </a>
+    </span>
+   
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      
+      {% if is_granted('IS_AUTHENTICATED_FULLY')%}
+        {% if app.user.type == "FREELANCER"%}
+            <span class="fs-4 text-white sidebar-label">Painel do Freelancer</span>
+        {% else %}
+            <span class="fs-4 text-white sidebar-label">Painel do Cliente</span>
+        {% endif %}
+      {% endif %}  
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="#" class="nav-link active" aria-current="page">
+        <span>
+          <i class="fas fa-user-tie text-white"></i>
+        </span>
+          <span class="sidebar-label  ms-2  text-white">Meu Perfil</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          <span>
+            <i class="fas fa-briefcase text-white"></i>
+          </span>
+          <span class="sidebar-label ms-2  text-white">Minhas Propostas</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white ">
+          <span>
+            <i class="fas fa-handshake text-white"></i>
+          </span>
+          <span class="sidebar-label  ms-2  text-white">Projetos</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-white">
+          <span>
+            <i class="fas fa-wallet text-white"></i>
+          </span>
+          <span class="sidebar-label ms-2 text-white">Pagamentos</span>
+        </a>
+      </li>
+      {# <li>
+        <a href="#" class="nav-link text-white">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+          Customers
+        </a>
+      </li> #}
+    </ul>
+    <hr>
+    <div class="dropdown">
+      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        
+        <i class="fas fa-plus-circle text-white"></i>
+        
+      </a>
+      <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+        <li><a class="dropdown-item" href="#">New project...</a></li>
+        <li><a class="dropdown-item" href="#">Settings</a></li>
+        <li><a class="dropdown-item" href="#">Profile</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#">Sign out</a></li>
+      </ul>
+    </div>
+    <script>
+        const collapseSideBarActionEl = document.querySelector('.sidebar-collapse-action');
+        collapseSideBarActionEl.addEventListener('click', function(){
+            console.log('Collapsing sidebar... ');
+            const mainSidebarEl = document.querySelector('.main-sidebar');
+            mainSidebarEl.classList.toggle('main-sidebar-collapsed');
+
+            const chevronEl = document.querySelector('.fa-chevron-left');
+            chevronEl.classList.toggle('rotated');
+
+            const sidebarLabelsList = document.querySelectorAll('.sidebar-label');
+
+            sidebarLabelsList.forEach((el) => {
+              el.classList.toggle('sidebar-label-collapse');
+              el.classList.toggle('ms-2');
+              //el.style.display = 'none';
+            })
+
+            const navlinkList = document.querySelectorAll('.main-sidebar .nav-link');
+
+            navlinkList.forEach((el) => {
+              el.classList.toggle('nav-link-collapsed');
+            })
+
+        })
+    </script>
+  </div>

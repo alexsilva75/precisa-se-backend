@@ -1,6 +1,16 @@
 :root {
   --main-color: #003459;
+  --main-color-dark: #002a47;
   --secondary-color: #007ea7;
+}
+
+* {
+  color: #00171f;
+}
+
+.bg-main-color {
+  background-color: var(--main-color) !important;
+  color: #fff;
 }
 
 .main-color {
@@ -8,7 +18,108 @@
   color: #fff;
 }
 
-.secondary-color {
+.main-color:link,
+.main-color:visited {
+  background-color: var(--main-color) !important;
+  color: #fff;
+}
+
+.main-color:hover,
+.main-color:active {
+  background-color: var(--main-color-dark) !important;
+  color: rgb(183, 203, 221);
+}
+
+.secondary-color:link,
+.secondary-color:visited {
   background-color: var(--secondary-color) !important;
   color: #fff;
+}
+
+.secondary-color:hover,
+.secondary-color:active {
+  background-color: var(--secondary-color) !important;
+  color: #fff;
+}
+
+.wrapper {
+  min-height: 100vh;
+}
+main {
+  display: flex;
+  flex-wrap: nowrap;
+  /* height: 100vh; */
+  height: -webkit-fill-available;
+  /* min-height: 91.17199391171994vh; */
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+.nav-link {
+  overflow: hidden;
+}
+
+.main-sidebar {
+  transition: all 0.5s;
+  width: 280px;
+}
+
+.main-sidebar-collapsed {
+  width: 78px !important;
+}
+
+.nav-link-collapsed {
+  padding-right: 0 !important;
+}
+.sidebar-label {
+  transition: all 0.5s;
+}
+
+.sidebar-label-collapse {
+  opacity: 0;
+  font-size: 0 !important;
+}
+
+.sidebar-collapse-button {
+  display: inline-block;
+  top: 50%;
+  right: -15px;
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
+  box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+  transform: translateY(-50%);
+}
+
+.sidebar-collapse-action {
+  cursor: pointer;
+}
+
+.fa-chevron-left {
+  transition: all 0.5s;
+}
+
+.rotated {
+  transform: rotate(180deg);
+}
+
+.info-box {
+  box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+  border-radius: 0.25rem;
+  background-color: #fff;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 1rem;
+  min-height: 80px;
+  padding: 0.5rem;
+  position: relative;
+  width: 100%;
+}
+
+/* FORM VALIDATIONS */
+/* Dim and disable the button while the form is invalid */
+form[name="registration_form"]:invalid button[type="submit"] {
+  opacity: 0.3;
+  pointer-events: none;
 }

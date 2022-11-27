@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{# {% block title %}Hello HomeController!{% endblock %} #}
 
 {% block body %}
 
-
+{# 
     <div class="row">
         <div class="col-12 pt-4 text-center">
             <h1>O que você procura?</h1>
@@ -20,9 +20,19 @@
             <a href="{{path('search_projects')}}" class="btn btn-lg secondary-color">Quero Trabalhar</a>
             
         </div>
-    </div>
+    </div> #}
       
-
+<div class="px-4 py-5 my-5 text-center">
+    <img class="d-block mx-auto mb-4" src="{{asset('img/magnifier.png')}}" alt="" width="72" height="57">
+    <h1 class="display-5 fw-bold">O que você procura?</h1>
+    <div class="col-lg-6 mx-auto">
+      <p class="lead mb-4">Somos o Precisa-se! Um Serviço que une prestadores de serviço e oportunidades.</p>
+      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+        <a href="{{path('search_freelancers')}}" type="button" class="btn btn-lg px-4 gap-3 main-color">Quero Contratar</a>
+        <a href="{{path('search_projects')}}" type="button" class="btn btn-outline-secondary btn-lg px-4">Quero Trabalhar</a>
+      </div>
+    </div>
+</div>
     
 
 {% endblock %}

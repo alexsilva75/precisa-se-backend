@@ -13,13 +13,24 @@
 
             {{ form_start(registrationForm) }}
                 {{ form_row(registrationForm.email) }}
-                {{ form_row(registrationForm.plainPassword, {
-                    label: 'Password'
+                {{ form_row(registrationForm.username, {label: 'Nome de Usuário'}) }}
+                {{ form_row(registrationForm.cpf, {
+                    label: 'CPF'
                 }) }}
-                {{ form_row(registrationForm.agreeTerms) }}
+                {{ form_row(registrationForm.plainPassword, {
+                    label: 'Senha'
+                }) }}
+                {{ form_row(registrationForm.confirmedPassword, {
+                    label: 'Confirmar Senha'
+                }) }}
+                <div class="text-danger" id="password-alert"></div>
+                {{ form_row(registrationForm.user_type, {label: 'Sou um Profissional Freelancer.'}) }}
+                {{ form_row(registrationForm.type) }}
+                {{ form_row(registrationForm.agreeTerms, {label: 'Li e Concordo com os termos de uso'}) }}
 
                 <button type="submit" class="btn btn-primary">Enviar</button>
             {{ form_end(registrationForm) }}
         </div>
+        <script src="{{asset('js/validators/registration-form.js')}}"></script>
     </div>
 {% endblock %}

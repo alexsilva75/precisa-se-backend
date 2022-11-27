@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -32,6 +34,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $username = null;
+
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $type = null;
+
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $cpf = null;
+
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Project::class)]
+    private Collection $myProjects;
+
+    #[ORM\ManyToMany(targetEntity: Project::class, inversedBy: 'users')]
+    private Collection $proposals;
+
+    #[ORM\OneToMany(mappedBy: 'freelancer', targetEntity: JobTitle::class, orphanRemoval: true)]
+    private Collection $jobTitles;
+
+    #[ORM\ManyToMany(targetEntity: Expertise::class, inversedBy: 'users')]
+    private Collection $expertises;   
+
+    public function __construct()
+    {
+        $this->myProjects = new ArrayCollection();
+        $this->proposals = new ArrayCollection();
+        $this->jobTitles = new ArrayCollection();
+        $this->expertises = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -114,4 +145,154 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(?string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(?string $type): self
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    public function getCpf(): ?string
+    {
+        return $this->cpf;
+    }
+
+    public function setCpf(?string $cpf): self
+    {
+        $this->cpf = $cpf;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Project>
+     */
+    public function getMyProjects(): Collection
+    {
+        return $this->myProjects;
+    }
+
+    public function addMyProject(Project $myProject): self
+    {
+        if (!$this->myProjects->contains($myProject)) {
+            $this->myProjects->add($myProject);
+            $myProject->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMyProject(Project $myProject): self
+    {
+        if ($this->myProjects->removeElement($myProject)) {
+            // set the owning side to null (unless already changed)
+            if ($myProject->getOwner() === $this) {
+                $myProject->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Project>
+     */
+    public function getProposals(): Collection
+    {
+        return $this->proposals;
+    }
+
+    public function addProposal(Project $proposal): self
+    {
+        if (!$this->proposals->contains($proposal)) {
+            $this->proposals->add($proposal);
+        }
+
+        return $this;
+    }
+
+    public function removeProposal(Project $proposal): self
+    {
+        $this->proposals->removeElement($proposal);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, JobTitle>
+     */
+    public function getJobTitles(): Collection
+    {
+        return $this->jobTitles;
+    }
+
+    public function addJobTitle(JobTitle $jobTitle): self
+    {
+        if (!$this->jobTitles->contains($jobTitle)) {
+            $this->jobTitles->add($jobTitle);
+            $jobTitle->setFreelancer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeJobTitle(JobTitle $jobTitle): self
+    {
+        if ($this->jobTitles->removeElement($jobTitle)) {
+            // set the owning side to null (unless already changed)
+            if ($jobTitle->getFreelancer() === $this) {
+                $jobTitle->setFreelancer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Expertise>
+     */
+    public function getExpertises(): Collection
+    {
+        return $this->expertises;
+    }
+
+    public function addExpertise(Expertise $expertise): self
+    {
+        if (!$this->expertises->contains($expertise)) {
+            $this->expertises->add($expertise);
+        }
+
+        return $this;
+    }
+
+    public function removeExpertise(Expertise $expertise): self
+    {
+        $this->expertises->removeElement($expertise);
+
+        return $this;
+    }
+
+    
+
+    
+
+  
 }
