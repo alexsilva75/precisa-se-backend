@@ -54,7 +54,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $jobTitles;
 
     #[ORM\ManyToMany(targetEntity: Expertise::class, inversedBy: 'users')]
-    private Collection $expertises;   
+    private Collection $expertises;
+
+    #[ORM\ManyToMany(targetEntity: Skill::class, inversedBy: 'users')]
+    private Collection $skills;   
 
     public function __construct()
     {
@@ -62,6 +65,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->proposals = new ArrayCollection();
         $this->jobTitles = new ArrayCollection();
         $this->expertises = new ArrayCollection();
+        $this->skills = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -286,6 +290,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeExpertise(Expertise $expertise): self
     {
         $this->expertises->removeElement($expertise);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Skill>
+     */
+    public function getSkills(): Collection
+    {
+        return $this->skills;
+    }
+
+    public function addSkill(Skill $skill): self
+    {
+        if (!$this->skills->contains($skill)) {
+            $this->skills->add($skill);
+        }
+
+        return $this;
+    }
+
+    public function removeSkill(Skill $skill): self
+    {
+        $this->skills->removeElement($skill);
 
         return $this;
     }

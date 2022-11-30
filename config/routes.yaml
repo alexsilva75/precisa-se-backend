@@ -1,3 +1,5 @@
 controllers:
-    resource: ../src/Controller/
-    type: attribute
+  resource: ../src/Controller/
+  type: attribute
+api_v1_login:
+  path: /api/v1/login

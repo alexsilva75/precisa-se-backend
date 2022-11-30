@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -97,4 +98,29 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+public function findByJobTitleOrExpertise(string $search): array | Collection | null{
+    $entityManager = $this->getEntityManager();
+
+    $query = $entityManager->createQuery(
+        'SELECT u, e
+        FROM App\Entity\User u
+        INNER JOIN u.expertises e   WITH e.title like :search'
+    )->setParameter('search', $search);
+
+    return $query->getResult();
+}
+
+public function findByFirstInitial($value): array
+   {
+       return $this->createQueryBuilder('u')
+           ->andWhere("lower(u.username) LIKE lower(:val)")
+           ->setParameter('val', "$value%")
+           ->orderBy('u.id', 'ASC')
+           ->setMaxResults(10)
+           ->getQuery()
+           ->getResult()
+       ;
+   }
+
 }

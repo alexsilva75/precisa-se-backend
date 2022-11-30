@@ -9,9 +9,9 @@
       
       {% if is_granted('IS_AUTHENTICATED_FULLY')%}
         {% if app.user.type == "FREELANCER"%}
-            <span class="fs-4 text-white sidebar-label">Painel do Freelancer</span>
+            <span class="sidebar-title text-white sidebar-label">Painel do Freelancer</span>
         {% else %}
-            <span class="fs-4 text-white sidebar-label">Painel do Cliente</span>
+            <span class="sidebar-title text-white sidebar-label">Painel do Cliente</span>
         {% endif %}
       {% endif %}  
     </a>
@@ -22,7 +22,7 @@
         <span>
           <i class="fas fa-user-tie text-white"></i>
         </span>
-          <span class="sidebar-label  ms-2  text-white">Meu Perfil</span>
+          <span class="sidebar-label text-white">Meu Perfil</span>
         </a>
       </li>
       <li>
@@ -30,7 +30,7 @@
           <span>
             <i class="fas fa-briefcase text-white"></i>
           </span>
-          <span class="sidebar-label ms-2  text-white">Minhas Propostas</span>
+          <span class="sidebar-label  text-white">Minhas Propostas</span>
         </a>
       </li>
       <li>
@@ -38,7 +38,7 @@
           <span>
             <i class="fas fa-handshake text-white"></i>
           </span>
-          <span class="sidebar-label  ms-2  text-white">Projetos</span>
+          <span class="sidebar-label  text-white">Projetos</span>
         </a>
       </li>
       <li>
@@ -46,7 +46,7 @@
           <span>
             <i class="fas fa-wallet text-white"></i>
           </span>
-          <span class="sidebar-label ms-2 text-white">Pagamentos</span>
+          <span class="sidebar-label text-white">Pagamentos</span>
         </a>
       </li>
       {# <li>
@@ -72,28 +72,68 @@
       </ul>
     </div>
     <script>
+      let sidebarIsCollapsed = false;
+       (function(){
+          const mainSidebarEl = document.querySelector('.main-sidebar');
+          //const width = mainSidebarEl.style.width;
+          console.log('Viewport width: ', window.innerWidth);
+
+
+          if(window.innerWidth >= 992){
+            sidebarIsCollapsed = false;
+          }else{
+            sidebarIsCollapsed = true;
+          }
+        })();
         const collapseSideBarActionEl = document.querySelector('.sidebar-collapse-action');
         collapseSideBarActionEl.addEventListener('click', function(){
             console.log('Collapsing sidebar... ');
             const mainSidebarEl = document.querySelector('.main-sidebar');
-            mainSidebarEl.classList.toggle('main-sidebar-collapsed');
+            //const mainSideBarTitleEl = document.querySelector('.main-sidebar .sidebar-label.sidebar-title');
+
+            if(sidebarIsCollapsed){
+              mainSidebarEl.classList.add('main-sidebar-expanded');   
+              mainSidebarEl.classList.remove('main-sidebar-collapsed');  
+              //mainSideBarTitleEl.style.fontSize = '1.5rem'         
+            }else{
+              mainSidebarEl.classList.remove('main-sidebar-expanded');   
+              mainSidebarEl.classList.add('main-sidebar-collapsed'); 
+              //mainSideBarTitleEl.style.fontSize = '0'
+            }
+
+            sidebarIsCollapsed = !sidebarIsCollapsed;
+
+            //const navlinkList = document.querySelectorAll('.main-sidebar .sidebar-label');
+
+            
+           /** if(mainSidebarEl.classList.contains('main-sidebar-expanded')){
+              
+              navlinkList.forEach((el) => {
+                el.style.fontSize = '1rem';
+                el.style.opacity = 1;
+              })
+            }else{
+              navlinkList.forEach((el) => {
+                el.style.fontSize = 0;
+                el.style.opacity = 0;
+              })
+            }*/
 
             const chevronEl = document.querySelector('.fa-chevron-left');
             chevronEl.classList.toggle('rotated');
 
-            const sidebarLabelsList = document.querySelectorAll('.sidebar-label');
+            //const sidebarLabelsList = document.querySelectorAll('.sidebar-label');
 
-            sidebarLabelsList.forEach((el) => {
-              el.classList.toggle('sidebar-label-collapse');
-              el.classList.toggle('ms-2');
-              //el.style.display = 'none';
-            })
+           // sidebarLabelsList.forEach((el) => {
+           //   el.classList.toggle('sidebar-label-collapse');
+            //  el.classList.toggle('ms-2');              
+            //})
 
-            const navlinkList = document.querySelectorAll('.main-sidebar .nav-link');
+            //const navlinkList = document.querySelectorAll('.main-sidebar .nav-link');
 
-            navlinkList.forEach((el) => {
-              el.classList.toggle('nav-link-collapsed');
-            })
+            //navlinkList.forEach((el) => {
+              //el.classList.toggle('nav-link-collapsed');
+            //})
 
         })
     </script>

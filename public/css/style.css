@@ -57,28 +57,58 @@ main {
 }
 
 .nav-link {
+  white-space: nowrap;
   overflow: hidden;
 }
 
 .main-sidebar {
   transition: all 0.5s;
-  width: 280px;
+  width: 78px;
+  /* overflow: hidden !important; */
+  /* display: none; */
+}
+
+.sidebar-title {
+  font-size: 0;
+  opacity: 0;
+}
+
+.main-sidebar .nav-link {
+  padding-right: 0 !important;
+}
+.sidebar-label {
+  transition: all 0.5s;
+
+  overflow: unset;
+}
+
+.main-sidebar .sidebar-label {
+  opacity: 0;
+  font-size: 0;
+}
+
+.main-sidebar-expanded {
+  width: 280px !important;
+}
+
+.main-sidebar-expanded .sidebar-label {
+  opacity: 1;
+  font-size: 1rem !important;
+  margin-left: 8px;
+}
+
+.main-sidebar-expanded .sidebar-label.sidebar-title {
+  font-size: 1.5rem !important;
 }
 
 .main-sidebar-collapsed {
   width: 78px !important;
 }
 
-.nav-link-collapsed {
-  padding-right: 0 !important;
-}
-.sidebar-label {
-  transition: all 0.5s;
-}
-
-.sidebar-label-collapse {
+.main-sidebar-collapsed .sidebar-label {
   opacity: 0;
   font-size: 0 !important;
+  margin-left: 0;
 }
 
 .sidebar-collapse-button {
@@ -117,9 +147,85 @@ main {
   width: 100%;
 }
 
+.info-box .info-box-icon {
+  border-radius: 0.25rem;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 1.875rem;
+  -ms-flex-pack: center;
+  justify-content: center;
+  text-align: center;
+  width: 70px;
+}
+
+.info-box .info-box-text,
+.info-box .progress-description {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.info-box .info-box-content {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  line-height: 1.8;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 10px;
+  overflow: hidden;
+}
+
+.info-box .info-box-number {
+  display: block;
+  margin-top: 0.25rem;
+  font-weight: 700;
+}
+
+.info-box .info-box-content {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-pack: center;
+  justify-content: center;
+  line-height: 1.8;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 0 10px;
+  overflow: hidden;
+}
+
 /* FORM VALIDATIONS */
 /* Dim and disable the button while the form is invalid */
 form[name="registration_form"]:invalid button[type="submit"] {
   opacity: 0.3;
   pointer-events: none;
+}
+
+@media (min-width: 992px) {
+  .main-sidebar {
+    transition: all 0.5s;
+    width: 280px;
+    /* overflow: hidden !important; */
+  }
+
+  .main-sidebar .sidebar-label.sidebar-title {
+    font-size: 1.5rem;
+    opacity: 1;
+  }
+  .main-sidebar .sidebar-label {
+    opacity: 1;
+    font-size: 1rem;
+  }
+
+  .nav-item-hidden {
+    display: none;
+  }
 }
