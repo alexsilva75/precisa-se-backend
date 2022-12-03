@@ -57,7 +57,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $expertises;
 
     #[ORM\ManyToMany(targetEntity: Skill::class, inversedBy: 'users')]
-    private Collection $skills;   
+    private Collection $skills;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;   
 
     public function __construct()
     {
@@ -314,6 +317,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeSkill(Skill $skill): self
     {
         $this->skills->removeElement($skill);
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): self
+    {
+        $this->name = $name;
 
         return $this;
     }
