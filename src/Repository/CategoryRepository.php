@@ -67,7 +67,7 @@ class CategoryRepository extends ServiceEntityRepository
    public function findByName($value): array
    {
        return $this->createQueryBuilder('c')
-           ->andWhere('c.name = :val')
+           ->andWhere('lower(c.name) LIKE lower(:val)')
            ->setParameter('val', "%$value%")
            ->orderBy('c.name', 'ASC')
            ->setMaxResults(10)
