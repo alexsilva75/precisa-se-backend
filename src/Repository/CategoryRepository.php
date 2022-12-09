@@ -5,7 +5,7 @@ namespace App\Repository;
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-
+use Doctrine\Common\Collections\Criteria;
 /**
  * @extends ServiceEntityRepository<Category>
  *
@@ -64,16 +64,44 @@ class CategoryRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-   public function findByName($value): array
+   public function findByName($value, $page = 1): array
    {
-       return $this->createQueryBuilder('c')
+
+        $maxResults = 10;
+        $count = $this->createQueryBuilder('c')
+        ->select('count(c.name)')
+        ->andWhere('lower(c.name) LIKE lower(:val)')
+        ->setParameter('val', "%$value%")
+        ->getQuery()
+        ->getSingleScalarResult();
+
+        $pages = ceil($count / $maxResults);
+        $currentPage = $page;
+
+        $prevPage = $currentPage > 1? $currentPage - 1 : null;
+        $nextPage = $currentPage < $pages? $currentPage + 1: null;
+
+        /** The offset to search the result from. */
+        $firstResult = $page * 10 - 10;
+
+       $result =  $this->createQueryBuilder('c')
            ->andWhere('lower(c.name) LIKE lower(:val)')
            ->setParameter('val', "%$value%")
            ->orderBy('c.name', 'ASC')
            ->setMaxResults(10)
+           ->setFirstResult($firstResult)           
            ->getQuery()
            ->getResult()
        ;
+
+       return [
+                'result' => $result, 
+                'count' => $count, 
+                'pages' => $pages,
+                'currentPage' => $currentPage,
+                'prevPage' => $prevPage,
+                'nextPage' => $nextPage,
+            ];
    }
 
 }

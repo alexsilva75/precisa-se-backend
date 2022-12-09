@@ -18,17 +18,20 @@ class ApiCategoryController extends AbstractController
     #[Route('/api/v1/category', name: 'app_api_category', methods:['GET'])]
     public function index(ManagerRegistry $doctrine, Request $request): JsonResponse
     {
-
         $entityManager = $doctrine->getManager();
 
         $search = $request->query->get('s', null);
+        $page = $request->query->get('page',1);
 
+        error_log("Searching Page: $page");
+        
         $result = [];
         
         if($search){
-            $result = $entityManager->getRepository(Category::class)->findByName($search);
+            $result = $entityManager->getRepository(Category::class)->findByName($search, $page);
         }else{           
-            $result =  $entityManager->getRepository(Category::class)->findAll();
+            
+            $result = $entityManager->getRepository(Category::class)->findByName("",$page);
         }
 
         $encoder = new JsonEncoder();
@@ -40,11 +43,14 @@ class ApiCategoryController extends AbstractController
         $normalizer = new ObjectNormalizer(null, null, null, null, null, null, $defaultContext);
 
         $serializer = new Serializer([$normalizer], [$encoder]);
-        //var_dump($serializer->serialize($org, 'json'));
-
+        
         return $this->json([
-            'categories' => json_decode($serializer->serialize($result, 'json')),
-            
+            'categories' => json_decode($serializer->serialize($result['result'], 'json')),
+            'count' => $result['count'],
+            'pages' => $result['pages'],
+            'currentPage' => $result['currentPage'],
+            'prevPage' => $result['prevPage'],
+            'nextPage' => $result['nextPage'],
         ],200);
     }
 
